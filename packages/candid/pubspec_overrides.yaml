@@ -1,0 +1,8 @@
+# melos_managed_dependency_overrides: candid_dart_cli,candid_dart_core,candid_dart_build
+dependency_overrides:
+  candid_dart_build:
+    path: ../build
+  candid_dart_cli:
+    path: ../cli
+  candid_dart_core:
+    path: ../core

@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -19,9 +19,10 @@ class ExtIDLActor {
   static Future<FeeResult> getFee(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getFee')!(dat);
-    return FeeResult.fromJson(ret);
+    const request = [];
+    const method = 'getFee';
+    final response = await actor.getFunc(method)!(request);
+    return FeeResult.fromJson(response);
   }
 
   /// ```Candid
@@ -31,9 +32,10 @@ class ExtIDLActor {
     CanisterActor actor,
     BalanceRequest arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('balance')!(dat);
-    return BalanceResponse.fromJson(ret);
+    final request = [arg];
+    const method = 'balance';
+    final response = await actor.getFunc(method)!(request);
+    return BalanceResponse.fromJson(response);
   }
 
   /// ```Candid
@@ -42,9 +44,10 @@ class ExtIDLActor {
   static Future<Result> metadata(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('metadata')!(dat);
-    return Result.fromJson(ret);
+    const request = [];
+    const method = 'metadata';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -54,96 +57,10 @@ class ExtIDLActor {
     CanisterActor actor,
     TransferRequest arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('transfer')!(dat);
-    return TransferResponse.fromJson(ret);
-  }
-}
-
-class ExtIDLService {
-  ExtIDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = ExtIDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
-  }
-
-  Future<FeeResult> getFee() async {
-    final actor = await getActor();
-    return ExtIDLActor.getFee(
-      actor,
-    );
-  }
-
-  Future<BalanceResponse> balance(
-    BalanceRequest arg,
-  ) async {
-    final actor = await getActor();
-    return ExtIDLActor.balance(
-      actor,
-      arg,
-    );
-  }
-
-  Future<Result> metadata() async {
-    final actor = await getActor();
-    return ExtIDLActor.metadata(
-      actor,
-    );
-  }
-
-  Future<TransferResponse> transfer(
-    TransferRequest arg,
-  ) async {
-    final actor = await getActor();
-    return ExtIDLActor.transfer(
-      actor,
-      arg,
-    );
+    final request = [arg];
+    const method = 'transfer';
+    final response = await actor.getFunc(method)!(request);
+    return TransferResponse.fromJson(response);
   }
 }
 
@@ -375,6 +292,7 @@ class User {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, address, principal]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -527,6 +445,7 @@ class TransferResponseErr {
         rejected,
         unauthorized
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -554,7 +473,11 @@ class TransferResponse {
           : TransferResponseErr.fromJson(
               json['err'],
             ),
-      ok: json['ok'] is BigInt ? json['ok'] : BigInt.from(json['ok']),
+      ok: json['ok'] == null
+          ? null
+          : json['ok'] is BigInt
+              ? json['ok']
+              : BigInt.from(json['ok']),
     );
   }
 
@@ -597,6 +520,7 @@ class TransferResponse {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -643,7 +567,7 @@ class TransferRequest {
       from: User.fromJson(json['from']),
       memo: json['memo'] is Uint8List
           ? json['memo']
-          : Uint8List.fromList(json['memo']),
+          : Uint8List.fromList((json['memo'] as List).cast()),
       nonce: (json['nonce'] as List).map((e) {
         return e == null
             ? null
@@ -653,7 +577,11 @@ class TransferRequest {
       }).firstOrNull,
       notify: json['notify'],
       subaccount: (json['subaccount'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       to: User.fromJson(json['to']),
       token: json['token'],
@@ -761,6 +689,7 @@ class TransferRequest {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, amount, from, memo, nonce, notify, subaccount, to, token]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -827,6 +756,7 @@ class Result {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -864,7 +794,7 @@ class MetadataFungible {
             ? null
             : e is Uint8List
                 ? e
-                : Uint8List.fromList(e);
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       name: json['name'],
       ownerAccount: json['ownerAccount'],
@@ -945,6 +875,7 @@ class MetadataFungible {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, decimals, metadata, name, ownerAccount, symbol]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -969,7 +900,7 @@ class MetadataNonfungible {
             ? null
             : e is Uint8List
                 ? e
-                : Uint8List.fromList(e);
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
     );
   }
@@ -1004,6 +935,7 @@ class MetadataNonfungible {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, metadata]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1080,6 +1012,7 @@ class Metadata {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, fungible, nonfungible]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1178,6 +1111,7 @@ class CommonError {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, insufficientBalance, invalidToken, other, unauthorized]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1201,7 +1135,11 @@ class BalanceResponse {
   factory BalanceResponse.fromJson(Map json) {
     return BalanceResponse(
       err: json['err'] == null ? null : CommonError.fromJson(json['err']),
-      ok: json['ok'] is BigInt ? json['ok'] : BigInt.from(json['ok']),
+      ok: json['ok'] == null
+          ? null
+          : json['ok'] is BigInt
+              ? json['ok']
+              : BigInt.from(json['ok']),
     );
   }
 
@@ -1244,6 +1182,7 @@ class BalanceResponse {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1310,6 +1249,7 @@ class BalanceRequest {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, token, user]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1380,6 +1320,7 @@ class FeeResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();

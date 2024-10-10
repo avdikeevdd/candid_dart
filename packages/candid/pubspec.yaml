@@ -1,3 +1,4 @@
+publish_to: none
 name: candid_dart
 description: Provide [Dart Build System](https://github.com/dart-lang/build) builder and command-line tools to process `.did` files
   and quickly generate Dart code corresponding to the `.did` files.
@@ -10,9 +11,21 @@ environment:
   sdk: '>=2.18.0 <4.0.0'
 
 dependencies:
-  candid_dart_cli: ^1.1.5
-  candid_dart_core: ^1.1.5
-  build: ^2.3.0
+  candid_dart_cli:
+    git:
+      url: https://github.com/avdikeevdd/candid_dart.git
+      ref: main
+      path: packages/cli
+  candid_dart_core:
+    git:
+      url: https://github.com/avdikeevdd/candid_dart.git
+      ref: main
+      path: packages/core
+  candid_dart_build:
+    git:
+      url: https://github.com/avdikeevdd/candid_dart.git
+      ref: main
+      path: packages/build
 
 dev_dependencies:
   lints: ^2.0.0

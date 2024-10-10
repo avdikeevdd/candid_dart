@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -20,9 +20,10 @@ class XtcIDLActor {
     CanisterActor actor,
     AllowanceArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('allowance')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = arg.toJson();
+    const method = 'allowance';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -32,9 +33,10 @@ class XtcIDLActor {
     CanisterActor actor,
     ApproveArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('approve')!(dat);
-    return TxReceipt.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'approve';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceipt.fromJson(response);
   }
 
   /// ```Candid
@@ -44,9 +46,10 @@ class XtcIDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('balanceOf')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = [arg];
+    const method = 'balanceOf';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -55,9 +58,10 @@ class XtcIDLActor {
   static Future<int> decimals(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('decimals')!(dat);
-    return ret;
+    const request = [];
+    const method = 'decimals';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -66,9 +70,10 @@ class XtcIDLActor {
   static Future<Metadata> getMetadata(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getMetadata')!(dat);
-    return Metadata.fromJson(ret);
+    const request = [];
+    const method = 'getMetadata';
+    final response = await actor.getFunc(method)!(request);
+    return Metadata.fromJson(response);
   }
 
   /// ```Candid
@@ -77,9 +82,10 @@ class XtcIDLActor {
   static Future<BigInt> historySize(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('historySize')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'historySize';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -88,9 +94,10 @@ class XtcIDLActor {
   static Future<String> logo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('logo')!(dat);
-    return ret;
+    const request = [];
+    const method = 'logo';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -99,9 +106,10 @@ class XtcIDLActor {
   static Future<String> nameErc20(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('nameErc20')!(dat);
-    return ret;
+    const request = [];
+    const method = 'nameErc20';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -110,9 +118,10 @@ class XtcIDLActor {
   static Future<String> name(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('name')!(dat);
-    return ret;
+    const request = [];
+    const method = 'name';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -121,9 +130,10 @@ class XtcIDLActor {
   static Future<String> symbol(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('symbol')!(dat);
-    return ret;
+    const request = [];
+    const method = 'symbol';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -132,9 +142,10 @@ class XtcIDLActor {
   static Future<BigInt> totalSupply(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('totalSupply')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'totalSupply';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -144,9 +155,10 @@ class XtcIDLActor {
     CanisterActor actor,
     TransferErc20Arg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transferErc20')!(dat);
-    return TxReceiptLegacy.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transferErc20';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceiptLegacy.fromJson(response);
   }
 
   /// ```Candid
@@ -156,9 +168,10 @@ class XtcIDLActor {
     CanisterActor actor,
     TransferArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transfer')!(dat);
-    return TxReceipt.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transfer';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceipt.fromJson(response);
   }
 
   /// ```Candid
@@ -168,9 +181,10 @@ class XtcIDLActor {
     CanisterActor actor,
     TransferFromArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transferFrom')!(dat);
-    return TxReceipt.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transferFrom';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceipt.fromJson(response);
   }
 
   /// ```Candid
@@ -180,9 +194,10 @@ class XtcIDLActor {
     CanisterActor actor,
     MintArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mint')!(dat);
-    return MintResult.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mint';
+    final response = await actor.getFunc(method)!(request);
+    return MintResult.fromJson(response);
   }
 
   /// ```Candid
@@ -192,9 +207,10 @@ class XtcIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('isBlockUsed')!(dat);
-    return ret;
+    final request = [arg];
+    const method = 'isBlockUsed';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -203,9 +219,10 @@ class XtcIDLActor {
   static Future<List<BigInt>> getBlockUsed(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getBlockUsed')!(dat);
-    return (ret as List).map((e) {
+    const request = [];
+    const method = 'getBlockUsed';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return e is BigInt ? e : BigInt.from(e);
     }).toList();
   }
@@ -217,9 +234,10 @@ class XtcIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('get_map_block_used')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'get_map_block_used';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return e == null
           ? null
           : e is BigInt
@@ -235,9 +253,10 @@ class XtcIDLActor {
     CanisterActor actor,
     MintByIcpArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mint_by_icp')!(dat);
-    return TxReceipt.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mint_by_icp';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceipt.fromJson(response);
   }
 
   /// ```Candid
@@ -247,9 +266,10 @@ class XtcIDLActor {
     CanisterActor actor,
     MintByIcpRecoverArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mint_by_icp_recover')!(dat);
-    return TxReceipt.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mint_by_icp_recover';
+    final response = await actor.getFunc(method)!(request);
+    return TxReceipt.fromJson(response);
   }
 
   /// ```Candid
@@ -259,9 +279,10 @@ class XtcIDLActor {
     CanisterActor actor,
     BurnArg0 arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('burn')!(dat);
-    return BurnResult.fromJson(ret);
+    final request = [arg];
+    const method = 'burn';
+    final response = await actor.getFunc(method)!(request);
+    return BurnResult.fromJson(response);
   }
 
   /// ```Candid
@@ -271,11 +292,12 @@ class XtcIDLActor {
     CanisterActor actor, [
     Principal? arg,
   ]) async {
-    final dat = [
+    final request = [
       [if (arg != null) arg]
     ];
-    final ret = await actor.getFunc('balance')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const method = 'balance';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -285,9 +307,10 @@ class XtcIDLActor {
     CanisterActor actor,
     EventsArg0 arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('events')!(dat);
-    return EventsConnection.fromJson(ret);
+    final request = [arg];
+    const method = 'events';
+    final response = await actor.getFunc(method)!(request);
+    return EventsConnection.fromJson(response);
   }
 
   /// ```Candid
@@ -296,8 +319,9 @@ class XtcIDLActor {
   static Future<void> halt(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    await actor.getFunc('halt')!(dat);
+    const request = [];
+    const method = 'halt';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -306,9 +330,10 @@ class XtcIDLActor {
   static Future<Stats> stats(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('stats')!(dat);
-    return Stats.fromJson(ret);
+    const request = [];
+    const method = 'stats';
+    final response = await actor.getFunc(method)!(request);
+    return Stats.fromJson(response);
   }
 
   /// ```Candid
@@ -317,10 +342,11 @@ class XtcIDLActor {
   static Future<WalletBalanceRet0> walletBalance(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('wallet_balance')!(dat);
+    const request = [];
+    const method = 'wallet_balance';
+    final response = await actor.getFunc(method)!(request);
     return WalletBalanceRet0.fromJson(
-      ret,
+      response,
     );
   }
 
@@ -331,9 +357,10 @@ class XtcIDLActor {
     CanisterActor actor,
     WalletCreateCanisterArg0 arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('wallet_create_canister')!(dat);
-    return CreateResult.fromJson(ret);
+    final request = [arg];
+    const method = 'wallet_create_canister';
+    final response = await actor.getFunc(method)!(request);
+    return CreateResult.fromJson(response);
   }
 
   /// ```Candid
@@ -343,9 +370,10 @@ class XtcIDLActor {
     CanisterActor actor,
     WalletCreateWalletArg0 arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('wallet_create_wallet')!(dat);
-    return CreateResult.fromJson(ret);
+    final request = [arg];
+    const method = 'wallet_create_wallet';
+    final response = await actor.getFunc(method)!(request);
+    return CreateResult.fromJson(response);
   }
 
   /// ```Candid
@@ -355,316 +383,10 @@ class XtcIDLActor {
     CanisterActor actor,
     WalletCallArg0 arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('wallet_call')!(dat);
-    return ResultCall.fromJson(ret);
-  }
-}
-
-class XtcIDLService {
-  XtcIDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = XtcIDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
-  }
-
-  Future<BigInt> allowance(
-    AllowanceArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.allowance(
-      actor,
-      arg,
-    );
-  }
-
-  Future<TxReceipt> approve(
-    ApproveArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.approve(
-      actor,
-      arg,
-    );
-  }
-
-  Future<BigInt> balanceOf(
-    Principal arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.balanceOf(
-      actor,
-      arg,
-    );
-  }
-
-  Future<int> decimals() async {
-    final actor = await getActor();
-    return XtcIDLActor.decimals(
-      actor,
-    );
-  }
-
-  Future<Metadata> getMetadata() async {
-    final actor = await getActor();
-    return XtcIDLActor.getMetadata(
-      actor,
-    );
-  }
-
-  Future<BigInt> historySize() async {
-    final actor = await getActor();
-    return XtcIDLActor.historySize(
-      actor,
-    );
-  }
-
-  Future<String> logo() async {
-    final actor = await getActor();
-    return XtcIDLActor.logo(
-      actor,
-    );
-  }
-
-  Future<String> nameErc20() async {
-    final actor = await getActor();
-    return XtcIDLActor.nameErc20(
-      actor,
-    );
-  }
-
-  Future<String> name() async {
-    final actor = await getActor();
-    return XtcIDLActor.name(
-      actor,
-    );
-  }
-
-  Future<String> symbol() async {
-    final actor = await getActor();
-    return XtcIDLActor.symbol(
-      actor,
-    );
-  }
-
-  Future<BigInt> totalSupply() async {
-    final actor = await getActor();
-    return XtcIDLActor.totalSupply(
-      actor,
-    );
-  }
-
-  Future<TxReceiptLegacy> transferErc20(
-    TransferErc20Arg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.transferErc20(
-      actor,
-      arg,
-    );
-  }
-
-  Future<TxReceipt> transfer(
-    TransferArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.transfer(
-      actor,
-      arg,
-    );
-  }
-
-  Future<TxReceipt> transferFrom(
-    TransferFromArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.transferFrom(
-      actor,
-      arg,
-    );
-  }
-
-  Future<MintResult> mint(
-    MintArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.mint(
-      actor,
-      arg,
-    );
-  }
-
-  Future<bool> isBlockUsed(
-    BigInt arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.isBlockUsed(
-      actor,
-      arg,
-    );
-  }
-
-  Future<List<BigInt>> getBlockUsed() async {
-    final actor = await getActor();
-    return XtcIDLActor.getBlockUsed(
-      actor,
-    );
-  }
-
-  Future<BigInt?> getMapBlockUsed(
-    BigInt arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.getMapBlockUsed(
-      actor,
-      arg,
-    );
-  }
-
-  Future<TxReceipt> mintByIcp(
-    MintByIcpArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.mintByIcp(
-      actor,
-      arg,
-    );
-  }
-
-  Future<TxReceipt> mintByIcpRecover(
-    MintByIcpRecoverArg arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.mintByIcpRecover(
-      actor,
-      arg,
-    );
-  }
-
-  Future<BurnResult> burn(
-    BurnArg0 arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.burn(
-      actor,
-      arg,
-    );
-  }
-
-  Future<BigInt> balance([
-    Principal? arg,
-  ]) async {
-    final actor = await getActor();
-    return XtcIDLActor.balance(
-      actor,
-      arg,
-    );
-  }
-
-  Future<EventsConnection> events(
-    EventsArg0 arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.events(
-      actor,
-      arg,
-    );
-  }
-
-  Future<void> halt() async {
-    final actor = await getActor();
-    return XtcIDLActor.halt(
-      actor,
-    );
-  }
-
-  Future<Stats> stats() async {
-    final actor = await getActor();
-    return XtcIDLActor.stats(
-      actor,
-    );
-  }
-
-  Future<WalletBalanceRet0> walletBalance() async {
-    final actor = await getActor();
-    return XtcIDLActor.walletBalance(
-      actor,
-    );
-  }
-
-  Future<CreateResult> walletCreateCanister(
-    WalletCreateCanisterArg0 arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.walletCreateCanister(
-      actor,
-      arg,
-    );
-  }
-
-  Future<CreateResult> walletCreateWallet(
-    WalletCreateWalletArg0 arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.walletCreateWallet(
-      actor,
-      arg,
-    );
-  }
-
-  Future<ResultCall> walletCall(
-    WalletCallArg0 arg,
-  ) async {
-    final actor = await getActor();
-    return XtcIDLActor.walletCall(
-      actor,
-      arg,
-    );
+    final request = [arg];
+    const method = 'wallet_call';
+    final response = await actor.getFunc(method)!(request);
+    return ResultCall.fromJson(response);
   }
 }
 
@@ -1155,6 +877,7 @@ class BurnArg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, canisterId, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1227,6 +950,7 @@ class EventsArg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, offset, limit]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1281,6 +1005,7 @@ class WalletBalanceRet0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1352,6 +1077,7 @@ class WalletCreateCanisterArg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, cycles, controller]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1390,7 +1116,7 @@ class WalletCallArg0 {
       methodName: json['method_name'],
       args: json['args'] is Uint8List
           ? json['args']
-          : Uint8List.fromList(json['args']),
+          : Uint8List.fromList((json['args'] as List).cast()),
       cycles: json['cycles'] is BigInt
           ? json['cycles']
           : BigInt.from(json['cycles']),
@@ -1459,6 +1185,7 @@ class WalletCallArg0 {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, canister, methodName, args, cycles]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1600,6 +1327,7 @@ class Metadata {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, decimals, fee, logo, name, owner, symbol, totalSupply]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1659,6 +1387,20 @@ enum TxError {
 
   final String name;
 
+  bool get isInsufficientAllowance => this == TxError.insufficientAllowance;
+  bool get isInsufficientBalance => this == TxError.insufficientBalance;
+  bool get isErrorOperationStyle => this == TxError.errorOperationStyle;
+  bool get isUnauthorized => this == TxError.unauthorized;
+  bool get isLedgerTrap => this == TxError.ledgerTrap;
+  bool get isErrorTo => this == TxError.errorTo;
+  bool get isOther => this == TxError.other;
+  bool get isBlockUsed => this == TxError.blockUsed;
+  bool get isFetchRateFailed => this == TxError.fetchRateFailed;
+  bool get isNotifyDfxFailed => this == TxError.notifyDfxFailed;
+  bool get isUnexpectedCyclesResponse =>
+      this == TxError.unexpectedCyclesResponse;
+  bool get isAmountTooSmall => this == TxError.amountTooSmall;
+  bool get isInsufficientXTCFee => this == TxError.insufficientXTCFee;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -1733,6 +1475,7 @@ class TxReceipt {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1762,6 +1505,9 @@ enum BurnError {
 
   final String name;
 
+  bool get isInsufficientBalance => this == BurnError.insufficientBalance;
+  bool get isInvalidTokenContract => this == BurnError.invalidTokenContract;
+  bool get isNotSufficientLiquidity => this == BurnError.notSufficientLiquidity;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -1788,7 +1534,11 @@ class BurnResult {
 
   factory BurnResult.fromJson(Map json) {
     return BurnResult(
-      ok: json['Ok'] is BigInt ? json['Ok'] : BigInt.from(json['Ok']),
+      ok: json['Ok'] == null
+          ? null
+          : json['Ok'] is BigInt
+              ? json['Ok']
+              : BigInt.from(json['Ok']),
       err: json['Err'] == null ? null : BurnError.fromJson(json['Err']),
     );
   }
@@ -1832,6 +1582,7 @@ class BurnResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1858,6 +1609,10 @@ enum TxReceiptLegacyErr {
 
   final String name;
 
+  bool get isInsufficientAllowance =>
+      this == TxReceiptLegacyErr.insufficientAllowance;
+  bool get isInsufficientBalance =>
+      this == TxReceiptLegacyErr.insufficientBalance;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -1936,6 +1691,7 @@ class TxReceiptLegacy {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1959,6 +1715,7 @@ enum MintError {
 
   final String name;
 
+  bool get isNotSufficientLiquidity => this == MintError.notSufficientLiquidity;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -1985,7 +1742,11 @@ class MintResult {
 
   factory MintResult.fromJson(Map json) {
     return MintResult(
-      ok: json['Ok'] is BigInt ? json['Ok'] : BigInt.from(json['Ok']),
+      ok: json['Ok'] == null
+          ? null
+          : json['Ok'] is BigInt
+              ? json['Ok']
+              : BigInt.from(json['Ok']),
       err: json['Err'] == null ? null : MintError.fromJson(json['Err']),
     );
   }
@@ -2029,6 +1790,7 @@ class MintResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2050,7 +1812,7 @@ class ResultCallOk {
     return ResultCallOk(
       returnKey: json['returnKey'] is Uint8List
           ? json['returnKey']
-          : Uint8List.fromList(json['returnKey']),
+          : Uint8List.fromList((json['returnKey'] as List).cast()),
     );
   }
 
@@ -2084,6 +1846,7 @@ class ResultCallOk {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, returnKey]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2154,6 +1917,7 @@ class ResultCall {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2207,6 +1971,7 @@ class CreateResultOk {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, canisterId]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2277,6 +2042,7 @@ class CreateResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2343,6 +2109,7 @@ class EventDetailTransfer {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, from, to]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2407,6 +2174,7 @@ class EventDetailMint {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, to]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2489,6 +2257,7 @@ class EventDetailCanisterCalled {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, from, canister, methodName]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2556,6 +2325,7 @@ class EventDetailCanisterCreated {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, from, canister]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2636,6 +2406,7 @@ class EventDetailTransferFrom {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, caller, from, to]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2813,6 +2584,7 @@ class EventDetail {
         transferFrom,
         approve
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2839,6 +2611,8 @@ enum TransactionStatus {
 
   final String name;
 
+  bool get isSucceeded => this == TransactionStatus.succeeded;
+  bool get isFailed => this == TransactionStatus.failed;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -2957,6 +2731,7 @@ class Event {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, fee, kind, cycles, timestamp, status]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3050,6 +2825,7 @@ class EventsConnection {
         nextOffset,
         nextCanisterId
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3284,6 +3060,7 @@ class Stats {
         proxyCallsCount,
         canistersCreatedCount
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3347,6 +3124,7 @@ class AllowanceArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3410,6 +3188,7 @@ class ApproveArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3473,6 +3252,7 @@ class TransferErc20Arg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3536,6 +3316,7 @@ class TransferArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3611,6 +3392,7 @@ class TransferFromArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3674,6 +3456,7 @@ class MintArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3694,7 +3477,11 @@ class MintByIcpArg {
   factory MintByIcpArg.fromJson(List<dynamic> tuple) {
     return MintByIcpArg(
       (tuple[0] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
     );
@@ -3739,6 +3526,7 @@ class MintByIcpArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3760,7 +3548,11 @@ class MintByIcpRecoverArg {
   factory MintByIcpRecoverArg.fromJson(List<dynamic> tuple) {
     return MintByIcpRecoverArg(
       (tuple[0] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       Principal.from(tuple[2]),
@@ -3816,6 +3608,7 @@ class MintByIcpRecoverArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();

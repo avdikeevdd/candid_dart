@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -19,9 +19,10 @@ class IcpSwapTokensIDLActor {
     CanisterActor actor,
     TokenMetadata arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('add')!(dat);
-    return BoolResult.fromJson(ret);
+    final request = [arg];
+    const method = 'add';
+    final response = await actor.getFunc(method)!(request);
+    return BoolResult.fromJson(response);
   }
 
   /// ```Candid
@@ -31,9 +32,10 @@ class IcpSwapTokensIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('addAdmin')!(dat);
-    return BoolResult.fromJson(ret);
+    final request = [arg];
+    const method = 'addAdmin';
+    final response = await actor.getFunc(method)!(request);
+    return BoolResult.fromJson(response);
   }
 
   /// ```Candid
@@ -42,9 +44,10 @@ class IcpSwapTokensIDLActor {
   static Future<NatResult> cycleAvailable(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('cycleAvailable')!(dat);
-    return NatResult.fromJson(ret);
+    const request = [];
+    const method = 'cycleAvailable';
+    final response = await actor.getFunc(method)!(request);
+    return NatResult.fromJson(response);
   }
 
   /// ```Candid
@@ -53,9 +56,10 @@ class IcpSwapTokensIDLActor {
   static Future<NatResult> cycleBalance(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('cycleBalance')!(dat);
-    return NatResult.fromJson(ret);
+    const request = [];
+    const method = 'cycleBalance';
+    final response = await actor.getFunc(method)!(request);
+    return NatResult.fromJson(response);
   }
 
   /// ```Candid
@@ -65,21 +69,23 @@ class IcpSwapTokensIDLActor {
     CanisterActor actor,
     EditArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('edit')!(dat);
-    return BoolResult.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'edit';
+    final response = await actor.getFunc(method)!(request);
+    return BoolResult.fromJson(response);
   }
 
   /// ```Candid
   ///   get: (text) -> (Result_2) query
   /// ```
-  static Future<Result2> get(
+  static Future<Result2> get_(
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('get')!(dat);
-    return Result2.fromJson(ret);
+    final request = [arg];
+    const method = 'get';
+    final response = await actor.getFunc(method)!(request);
+    return Result2.fromJson(response);
   }
 
   /// ```Candid
@@ -88,9 +94,10 @@ class IcpSwapTokensIDLActor {
   static Future<Result1> getAdminList(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getAdminList')!(dat);
-    return Result1.fromJson(ret);
+    const request = [];
+    const method = 'getAdminList';
+    final response = await actor.getFunc(method)!(request);
+    return Result1.fromJson(response);
   }
 
   /// ```Candid
@@ -99,9 +106,10 @@ class IcpSwapTokensIDLActor {
   static Future<Result> getList(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getList')!(dat);
-    return Result.fromJson(ret);
+    const request = [];
+    const method = 'getList';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -111,9 +119,10 @@ class IcpSwapTokensIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('remove')!(dat);
-    return BoolResult.fromJson(ret);
+    final request = [arg];
+    const method = 'remove';
+    final response = await actor.getFunc(method)!(request);
+    return BoolResult.fromJson(response);
   }
 
   /// ```Candid
@@ -123,150 +132,10 @@ class IcpSwapTokensIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('removeAdmin')!(dat);
-    return BoolResult.fromJson(ret);
-  }
-}
-
-class IcpSwapTokensIDLService {
-  IcpSwapTokensIDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = IcpSwapTokensIDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
-  }
-
-  Future<BoolResult> add(
-    TokenMetadata arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.add(
-      actor,
-      arg,
-    );
-  }
-
-  Future<BoolResult> addAdmin(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.addAdmin(
-      actor,
-      arg,
-    );
-  }
-
-  Future<NatResult> cycleAvailable() async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.cycleAvailable(
-      actor,
-    );
-  }
-
-  Future<NatResult> cycleBalance() async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.cycleBalance(
-      actor,
-    );
-  }
-
-  Future<BoolResult> edit(
-    EditArg arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.edit(
-      actor,
-      arg,
-    );
-  }
-
-  Future<Result2> get(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.get(
-      actor,
-      arg,
-    );
-  }
-
-  Future<Result1> getAdminList() async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.getAdminList(
-      actor,
-    );
-  }
-
-  Future<Result> getList() async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.getList(
-      actor,
-    );
-  }
-
-  Future<BoolResult> remove(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.remove(
-      actor,
-      arg,
-    );
-  }
-
-  Future<BoolResult> removeAdmin(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return IcpSwapTokensIDLActor.removeAdmin(
-      actor,
-      arg,
-    );
+    final request = [arg];
+    const method = 'removeAdmin';
+    final response = await actor.getFunc(method)!(request);
+    return BoolResult.fromJson(response);
   }
 }
 
@@ -602,6 +471,7 @@ class TokenMetadata {
         symbol,
         totalSupply
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -670,6 +540,7 @@ class Result2 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -693,7 +564,7 @@ class Result1 {
   factory Result1.fromJson(Map json) {
     return Result1(
       err: json['err'],
-      ok: json['ok'],
+      ok: (json['ok'] as List?)?.cast(),
     );
   }
 
@@ -737,6 +608,7 @@ class Result1 {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, err, const DeepCollectionEquality().hash(ok)]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -806,6 +678,7 @@ class Result {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, err, const DeepCollectionEquality().hash(ok)]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -876,6 +749,7 @@ class NatResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -943,6 +817,7 @@ class Media {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, link, mediaType]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1009,6 +884,7 @@ class BoolResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1072,6 +948,7 @@ class EditArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();

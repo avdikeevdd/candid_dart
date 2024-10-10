@@ -9,7 +9,7 @@ import '../idl/ext.idl.dart';
 import '../idl/icp_swap_tokens.idl.dart';
 import '../idl/icp_swap_usdt.idl.dart';
 import '../idl/icrc_1.idl.dart';
-import '../idl/ledger.idl.dart';
+import '../idl/ledger.idl.dart' as l;
 import '../idl/wicp.idl.dart';
 import '../idl/xtc.idl.dart';
 import 'extensions.dart';
@@ -236,7 +236,7 @@ class XtcTokenService extends XtcIDLService implements TokenService {
   }
 }
 
-class LedgerTokenService extends LedgerIDLService implements TokenService {
+class LedgerTokenService extends l.LedgerIDLService implements TokenService {
   LedgerTokenService(
     this.token, {
     super.identity,
@@ -248,7 +248,7 @@ class LedgerTokenService extends LedgerIDLService implements TokenService {
   @override
   Future<Decimal> getBalance(Principal principal) async {
     final tokens = await accountBalance(
-      AccountBalanceArgs(account: principal.toAccountId()),
+      l.AccountBalanceArgs(account: principal.toAccountId()),
     );
     return tokens.e8s.withDecimals(token.decimals);
   }

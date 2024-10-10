@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -19,9 +19,10 @@ class Drc20IDLActor {
   static Future<String> standard(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('standard')!(dat);
-    return ret;
+    const request = [];
+    const method = 'standard';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -31,9 +32,10 @@ class Drc20IDLActor {
     CanisterActor actor,
     Address arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('drc20_balanceOf')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = [arg];
+    const method = 'drc20_balanceOf';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -42,9 +44,10 @@ class Drc20IDLActor {
   static Future<int> drc20Decimals(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('drc20_decimals')!(dat);
-    return ret;
+    const request = [];
+    const method = 'drc20_decimals';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -53,9 +56,10 @@ class Drc20IDLActor {
   static Future<Amount> drc20Fee(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('drc20_fee')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'drc20_fee';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -64,9 +68,10 @@ class Drc20IDLActor {
   static Future<List<Metadata>> drc20Metadata(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('drc20_metadata')!(dat);
-    return (ret as List).map((e) {
+    const request = [];
+    const method = 'drc20_metadata';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return Metadata.fromJson(e);
     }).toList();
   }
@@ -77,9 +82,10 @@ class Drc20IDLActor {
   static Future<String> drc20Name(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('drc20_name')!(dat);
-    return ret;
+    const request = [];
+    const method = 'drc20_name';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -88,9 +94,10 @@ class Drc20IDLActor {
   static Future<String> drc20Symbol(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('drc20_symbol')!(dat);
-    return ret;
+    const request = [];
+    const method = 'drc20_symbol';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -100,124 +107,10 @@ class Drc20IDLActor {
     CanisterActor actor,
     Drc20TransferArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('drc20_transfer')!(dat);
-    return TxnResult.fromJson(ret);
-  }
-}
-
-class Drc20IDLService {
-  Drc20IDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = Drc20IDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
-  }
-
-  Future<String> standard() async {
-    final actor = await getActor();
-    return Drc20IDLActor.standard(
-      actor,
-    );
-  }
-
-  Future<Amount> drc20BalanceOf(
-    Address arg,
-  ) async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20BalanceOf(
-      actor,
-      arg,
-    );
-  }
-
-  Future<int> drc20Decimals() async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Decimals(
-      actor,
-    );
-  }
-
-  Future<Amount> drc20Fee() async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Fee(
-      actor,
-    );
-  }
-
-  Future<List<Metadata>> drc20Metadata() async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Metadata(
-      actor,
-    );
-  }
-
-  Future<String> drc20Name() async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Name(
-      actor,
-    );
-  }
-
-  Future<String> drc20Symbol() async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Symbol(
-      actor,
-    );
-  }
-
-  Future<TxnResult> drc20Transfer(
-    Drc20TransferArg arg,
-  ) async {
-    final actor = await getActor();
-    return Drc20IDLActor.drc20Transfer(
-      actor,
-      arg,
-    );
+    final request = arg.toJson();
+    const method = 'drc20_transfer';
+    final response = await actor.getFunc(method)!(request);
+    return TxnResult.fromJson(response);
   }
 }
 
@@ -390,6 +283,18 @@ enum TxnResultErrCode {
 
   final String name;
 
+  bool get isDuplicateExecutedTransfer =>
+      this == TxnResultErrCode.duplicateExecutedTransfer;
+  bool get isInsufficientAllowance =>
+      this == TxnResultErrCode.insufficientAllowance;
+  bool get isInsufficientBalance =>
+      this == TxnResultErrCode.insufficientBalance;
+  bool get isInsufficientGas => this == TxnResultErrCode.insufficientGas;
+  bool get isLockedTransferExpired =>
+      this == TxnResultErrCode.lockedTransferExpired;
+  bool get isNoLockedTransfer => this == TxnResultErrCode.noLockedTransfer;
+  bool get isNonceError => this == TxnResultErrCode.nonceError;
+  bool get isUndefinedError => this == TxnResultErrCode.undefinedError;
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -462,6 +367,7 @@ class TxnResultErr {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, code, message]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -489,7 +395,11 @@ class TxnResult {
           : TxnResultErr.fromJson(
               json['err'],
             ),
-      ok: json['ok'] is Uint8List ? json['ok'] : Uint8List.fromList(json['ok']),
+      ok: json['ok'] == null
+          ? null
+          : json['ok'] is Uint8List
+              ? json['ok']
+              : Uint8List.fromList((json['ok'] as List).cast()),
     );
   }
 
@@ -532,6 +442,7 @@ class TxnResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -598,6 +509,7 @@ class Metadata {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, content, name]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -623,13 +535,25 @@ class Drc20TransferArg {
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       (tuple[2] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       (tuple[3] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       (tuple[4] as List).map((e) {
-        return e is Uint8List ? e : Uint8List.fromList(e);
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
     );
   }
@@ -704,6 +628,7 @@ class Drc20TransferArg {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, item1, item2, item3, item4, item5]);
+
   @override
   String toString() {
     return toJson().toString();

@@ -1,3 +1,4 @@
+publish_to: none
 name: candid_dart_core
 description: Provide the `did2dart` method to process `Candid` content, and quickly generate corresponding Dart code.
 version: 1.1.5

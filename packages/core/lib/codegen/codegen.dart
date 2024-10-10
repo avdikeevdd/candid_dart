@@ -9,6 +9,7 @@ import '../antlr/CandidLexer.dart';
 import '../antlr/CandidParser.dart';
 import '../core.dart';
 import 'consts.dart';
+import 'errorgen.dart';
 import 'extension.dart';
 import 'types.dart' as ts;
 import 'visitor.dart';
@@ -43,6 +44,7 @@ String did2dart(
       cdSb.writeln('$id.fill(_$id);');
     }
   }
+
   final actors = StringBuffer();
   final actor = prog.actor;
   String? idlName;
@@ -128,6 +130,7 @@ Future<$retType> $methodName($arg) async {
   final sameObjs = idlVisitor.sameObjs;
   final hasObj = idlVisitor.objs.isNotEmpty || idlVisitor.tuples.isNotEmpty;
   final imports = [
+    Directive.import('package:hash_talk/core/l10n/generated/l10n.dart'),
     Directive.import('dart:async'),
     Directive.import('package:agent_dart/agent_dart.dart'),
     ...idlVisitor.pkgs.map(Directive.import),
@@ -145,7 +148,7 @@ Future<$retType> $methodName($arg) async {
     );
   }
   final emitter = DartEmitter.scoped();
-  final code = Library(
+  var code = Library(
     (b) => b
       ..body.addAll([
         Code(newActor(clazz, actorMethods.toString())),
@@ -163,9 +166,8 @@ Future<$retType> $methodName($arg) async {
                 ? toFreezedTupleClass(className, type, option)
                 : toFreezedClass(className, type, option);
           } else {
-            clazz = isTuple
-                ? toTupleClass(className, type, option)
-                : toClass(className, type, option);
+            clazz =
+                isTuple ? toTupleClass(className, type, option) : toClass(className, type, option);
           }
           if (sameObjs.containsKey(type.did)) {
             final set = sameObjs[type.did]!;
@@ -206,6 +208,9 @@ Future<$retType> $methodName($arg) async {
         '======================================',
       ]),
   ).accept(emitter).toString();
+
+  code = HTErrorGenerator(code: code, idlVisitor: idlVisitor).modifyCode();
+
   return DartFormatter(fixes: StyleFix.all).format(code);
 }
 
@@ -282,8 +287,7 @@ Spec toTupleClass(
     }
     fromJson.writeln('$deserialize,');
     final ser = child.serialize();
-    final arg =
-        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
+    final arg = ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toJsonFields.writeln('final $fieldName = this.$fieldName;');
   });
@@ -319,6 +323,13 @@ Spec toTupleClass(
             ..body = Code('${toJsonFields}return [$toJson];')
             ..returns = const Reference('List<dynamic>'),
         ),
+        if (HTErrorGenerator.rules(className).any((e) => e))
+          Method(
+            (b) => b
+              ..name = 'getErrorMessage'
+              ..body = Code('return _handle${className.pascalCase}(this);')
+              ..returns = const Reference('String'),
+          ),
         if (option.copyWith)
           Method(
             (b) => b
@@ -339,8 +350,7 @@ Spec toTupleClass(
                     ..type = const Reference('dynamic'),
                 )
               ])
-              ..annotations =
-                  ListBuilder([const CodeExpression(Code('override'))])
+              ..annotations = ListBuilder([const CodeExpression(Code('override'))])
               ..body = Code(
                 'return identical(this, other) || (other.runtimeType == runtimeType && other is $className ${fields.isEmpty ? '' : '&&'} ${equals.join("&&")});',
               ),
@@ -351,10 +361,8 @@ Spec toTupleClass(
               ..name = 'hashCode'
               ..returns = const Reference('int')
               ..lambda = true
-              ..annotations =
-                  ListBuilder([const CodeExpression(Code('override'))])
-              ..body =
-                  Code('Object.hashAll([runtimeType,${hashes.join(",")}])'),
+              ..annotations = ListBuilder([const CodeExpression(Code('override'))])
+              ..body = Code('Object.hashAll([runtimeType,${hashes.join(",")}])'),
           ),
         ],
         toStringMethod,
@@ -399,8 +407,7 @@ Spec toFreezedTupleClass(
     }
     fromJson.writeln('$deserialize,');
     final ser = child.serialize();
-    final arg =
-        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
+    final arg = ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toJsonFields.writeln('final $fieldName = this.$fieldName;');
   });
@@ -478,9 +485,7 @@ Spec toClass(
     final isIdType = child is ts.IdType;
     var dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
-    final isOpt = isIdType ||
-        (child as ts.PairType).value.child is ts.OptType ||
-        isVariant;
+    final isOpt = isIdType || (child as ts.PairType).value.child is ts.OptType || isVariant;
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
     }
@@ -559,15 +564,12 @@ Spec toClass(
       }
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
-      final arg =
-          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
+      final arg = ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
       if (child is ts.PairType) {
         final value = child.value.child;
         isOptChild = value is ts.OptType ||
-            (value is ts.IdType &&
-                value.child is ts.Id &&
-                (value.child as ts.Id).isOpt);
+            (value is ts.IdType && value.child is ts.Id && (value.child as ts.Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
@@ -617,6 +619,13 @@ Spec toClass(
             ..body = Code('${toJsonFields}return { $toJson };')
             ..returns = const Reference('Map<String, dynamic>'),
         ),
+        if (HTErrorGenerator.rules(className).any((e) => e))
+          Method(
+            (b) => b
+              ..name = 'getErrorMessage'
+              ..body = Code('return _handle${className.pascalCase}(this);')
+              ..returns = const Reference('String'),
+          ),
         if (option.copyWith)
           Method(
             (b) => b
@@ -637,8 +646,7 @@ Spec toClass(
                     ..type = const Reference('dynamic'),
                 )
               ])
-              ..annotations =
-                  ListBuilder([const CodeExpression(Code('override'))])
+              ..annotations = ListBuilder([const CodeExpression(Code('override'))])
               ..body = Code(
                 'return identical(this, other) || (other.runtimeType == runtimeType && other is $className ${fields.isEmpty ? '' : '&&'} ${equals.join("&&")});',
               ),
@@ -649,10 +657,8 @@ Spec toClass(
               ..name = 'hashCode'
               ..returns = const Reference('int')
               ..lambda = true
-              ..annotations =
-                  ListBuilder([const CodeExpression(Code('override'))])
-              ..body =
-                  Code('Object.hashAll([runtimeType,${hashes.join(",")}])'),
+              ..annotations = ListBuilder([const CodeExpression(Code('override'))])
+              ..body = Code('Object.hashAll([runtimeType,${hashes.join(",")}])'),
           ),
         ],
         toStringMethod,
@@ -767,9 +773,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
     final isIdType = child is ts.IdType;
     var dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
-    final isOpt = isIdType ||
-        (child as ts.PairType).value.child is ts.OptType ||
-        isVariant;
+    final isOpt = isIdType || (child as ts.PairType).value.child is ts.OptType || isVariant;
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
     }
@@ -808,15 +812,12 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
       }
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
-      final arg =
-          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
+      final arg = ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
       if (child is ts.PairType) {
         final value = child.value.child;
         isOptChild = value is ts.OptType ||
-            (value is ts.IdType &&
-                value.child is ts.Id &&
-                (value.child as ts.Id).isOpt);
+            (value is ts.IdType && value.child is ts.Id && (value.child as ts.Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
