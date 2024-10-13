@@ -292,11 +292,11 @@ class HTErrorGenerator {
         code.writeln('}');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
         code.writeln('if (error.$arg != null) {');
-        code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!);');
+        code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,);');
         code.writeln('}');
       } else {
         code.writeln('if (error.$arg != null) {');
-        code.writeln('return _handle$entryClassNamePC(error.$arg!);');
+        code.writeln('return _handle$entryClassNamePC(error.$arg!,);');
         code.writeln('}');
       }
     }
