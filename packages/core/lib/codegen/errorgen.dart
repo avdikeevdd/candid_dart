@@ -13,7 +13,7 @@ import 'visitor.dart';
 /// before line `return DartFormatter(fixes: StyleFix.all).format(code);`:
 /// code = HTErrorGenerator(code: code, idlVisitor: idlVisitor).modifyCode();
 ///
-/// Add Method code to `toClass` and `toTupleClass` methods in `packages/core/lib/codegen/codegen.dart`
+/// Add Method code to `toClass`, `toEnum` and `toTupleClass` methods in `packages/core/lib/codegen/codegen.dart`
 /// if (HTErrorGenerator.rules(className).any((e) => e))
 ///   Method(
 ///     (b) => b

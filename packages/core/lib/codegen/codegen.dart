@@ -747,6 +747,13 @@ Spec toEnum(String className, ts.ObjectType obj) {
             ..body = const Code('return {name: null};')
             ..returns = const Reference('Map<String, dynamic>'),
         ),
+        if (HTErrorGenerator.rules(className).any((e) => e))
+          Method(
+            (b) => b
+              ..name = 'getErrorMessage'
+              ..body = Code('return _handle${className.pascalCase}(this);')
+              ..returns = const Reference('String'),
+          ),
         toStringMethod,
       ])
       ..docs = ListBuilder(['/// [$className] defined in Candid', obj.doc]),
