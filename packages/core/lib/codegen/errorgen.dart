@@ -245,11 +245,11 @@ class HTErrorGenerator {
       code.writeln('if (error.$dartTypeArg != null) {');
       if (isTuple) {
         code.writeln(
-          'return L10n.current.$l10nPrefix$classNamePC$dartTypeArgPC(error.$dartTypeArg);',
+          'return L10n.current.$l10nPrefix$classNamePC$dartTypeArgPC(error.$dartTypeArg.toString());',
         );
       } else {
         code.writeln(
-          'return L10n.current.$l10nPrefix$dartTypeArgPC(error.$dartTypeArg);',
+          'return L10n.current.$l10nPrefix$dartTypeArgPC(error.$dartTypeArg.toString());',
         );
       }
       code.writeln('}');
