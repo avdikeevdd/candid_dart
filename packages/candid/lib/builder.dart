@@ -14,7 +14,7 @@ class Candid2DartBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     final inputId = buildStep.inputId;
-    final outputId = inputId.changeExtension('_idl.dart');
+    final outputId = inputId.changeExtension('.idl.dart');
     final contents = await buildStep.readAsString(inputId);
     final fileName = inputId.pathSegments.last;
     final code = did2dart(fileName, contents, option);
@@ -24,7 +24,7 @@ class Candid2DartBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions {
     return const {
-      '.did': ['_idl.dart'],
+      '.did': ['.idl.dart'],
     };
   }
 }
