@@ -5,36 +5,28 @@ import 'types.dart' as ts;
 import 'types.dart';
 import 'visitor.dart';
 
-///
-/// Add import to `packages/core/lib/codegen/codegen.dart`:
-/// Directive.import('package:hash_talk/core/l10n/generated/l10n.dart'),
-///
-/// Add code to `packages/core/lib/codegen/codegen.dart`:
-/// before line `return DartFormatter(fixes: StyleFix.all).format(code);`:
-/// code = HTErrorGenerator(code: code, idlVisitor: idlVisitor).modifyCode();
-///
-/// Add Method code to `toClass`, `toEnum` and `toTupleClass` methods in `packages/core/lib/codegen/codegen.dart`
-/// if (HTErrorGenerator.rules(className).any((e) => e))
-///   Method(
-///     (b) => b
-///       ..name = 'getErrorMessage'
-///       ..body = Code('return _handle${className.pascalCase}(this);')
-///       ..returns = const Reference('String'),
-///   ),
-///
-
 class HTErrorGenerator {
   HTErrorGenerator({
     required this.code,
     required this.idlVisitor,
+    required this.generateErrorsFor,
   });
 
   static const l10nPrefix = 'idl';
+
   // Define which IDL classes must be handled by HTErrorGenerator
-  static List<bool> rules(String className) => [
-        className.contains('Error'),
-        className == 'RejectionCode',
-      ];
+  static bool generateForObject(String className, List<String> generateErrorsFor) {
+    for (final rule in generateErrorsFor) {
+      final regExp = RegExp(rule);
+
+      if (regExp.hasMatch(className)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   static const dartTypes = [
     'String',
     'BigInt',
@@ -46,6 +38,7 @@ class HTErrorGenerator {
 
   final String code;
   final IDLVisitor idlVisitor;
+  final List<String> generateErrorsFor;
 
   // Resolve problems like this: typedef LedgerErrorSystemError = CMCErrorSystemError;
   // { OriginalName: MustChangedTo }
@@ -73,7 +66,7 @@ class HTErrorGenerator {
       final type = entry.value;
       final className = entry.key;
 
-      if (rules(className).every((e) => !e)) {
+      if (!generateForObject(className, generateErrorsFor)) {
         continue;
       }
 

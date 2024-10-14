@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
+import 'package:hash_talk/core/l10n/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 class Drc20IDLActor {
@@ -299,6 +300,10 @@ enum TxnResultErrCode {
     return {name: null};
   }
 
+  String getErrorMessage() {
+    return _handleTxnResultErrCode(this);
+  }
+
   @override
   String toString() {
     return toJson().toString();
@@ -341,6 +346,10 @@ class TxnResultErr {
       'code': code,
       'message': message,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleTxnResultErr(this);
   }
 
   TxnResultErr copyWith({
@@ -418,6 +427,10 @@ class TxnResult {
     };
   }
 
+  String getErrorMessage() {
+    return _handleTxnResult(this);
+  }
+
   TxnResult copyWith({
     /// [err] defined in Candid: `err: record { code: variant { DuplicateExecutedTransfer; InsufficientAllowance; InsufficientBalance; InsufficientGas; LockedTransferExpired; NoLockedTransfer; NonceError; UndefinedError }; message: text }`
     TxnResultErr? err,
@@ -483,6 +496,10 @@ class Metadata {
       'content': content,
       'name': name,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleMetadata(this);
   }
 
   Metadata copyWith({
@@ -588,6 +605,10 @@ class Drc20TransferArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleDrc20TransferArg(this);
+  }
+
   Drc20TransferArg copyWith({
     /// [item1] defined in Candid: `To`
     To? item1,
@@ -670,3 +691,77 @@ typedef Amount = BigInt;
 ///   type Address = text;
 /// ```
 typedef Address = String;
+
+String _handleTxnResultErrCode(
+  TxnResultErrCode error,
+) {
+  if (error == TxnResultErrCode.duplicateExecutedTransfer) {
+    return L10n.current.idlDuplicateExecutedTransfer;
+  }
+
+  if (error == TxnResultErrCode.insufficientAllowance) {
+    return L10n.current.idlInsufficientAllowance;
+  }
+
+  if (error == TxnResultErrCode.insufficientBalance) {
+    return L10n.current.idlInsufficientBalance;
+  }
+
+  if (error == TxnResultErrCode.insufficientGas) {
+    return L10n.current.idlInsufficientGas;
+  }
+
+  if (error == TxnResultErrCode.lockedTransferExpired) {
+    return L10n.current.idlLockedTransferExpired;
+  }
+
+  if (error == TxnResultErrCode.noLockedTransfer) {
+    return L10n.current.idlNoLockedTransfer;
+  }
+
+  if (error == TxnResultErrCode.nonceError) {
+    return L10n.current.idlNonceError;
+  }
+
+  if (error == TxnResultErrCode.undefinedError) {
+    return L10n.current.idlUndefinedError;
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTxnResultErr(
+  TxnResultErr error,
+) {
+  return L10n.current.idlTxnResultErr(
+    error.message.toString(),
+    _handleTxnResultErrCode(
+      error.code!,
+    ),
+  );
+}
+
+String _handleTxnResult(
+  TxnResult error,
+) {
+  if (error.ok != null) {
+    return L10n.current.idlOk;
+  }
+
+  if (error.err != null) {
+    return _handleTxnResultErr(
+      error.err!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleMetadata(
+  Metadata error,
+) {
+  return L10n.current.idlMetadata(
+    error.content.toString(),
+    error.name.toString(),
+  );
+}

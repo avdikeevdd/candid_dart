@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
+import 'package:hash_talk/core/l10n/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 class IcpSwapUsdtIDLActor {
@@ -574,6 +575,10 @@ class GetLastIDRet0Item {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleGetLastIDRet0Item(this);
+  }
+
   GetLastIDRet0Item copyWith({
     /// [item1] defined in Candid: `text`
     String? item1,
@@ -636,6 +641,10 @@ class GetTvlRecordRet0Item {
       item1,
       item2,
     ];
+  }
+
+  String getErrorMessage() {
+    return _handleGetTvlRecordRet0Item(this);
   }
 
   GetTvlRecordRet0Item copyWith({
@@ -975,6 +984,10 @@ class TransactionsType {
     };
   }
 
+  String getErrorMessage() {
+    return _handleTransactionsType(this);
+  }
+
   TransactionsType copyWith({
     /// [action] defined in Candid: `action: TransactionType`
     TransactionType? action,
@@ -1245,6 +1258,10 @@ enum TransactionType {
     return {name: null};
   }
 
+  String getErrorMessage() {
+    return _handleTransactionType(this);
+  }
+
   @override
   String toString() {
     return toJson().toString();
@@ -1323,6 +1340,10 @@ class PublicTokenPricesData {
       'open': open,
       'timestamp': timestamp,
     };
+  }
+
+  String getErrorMessage() {
+    return _handlePublicTokenPricesData(this);
   }
 
   PublicTokenPricesData copyWith({
@@ -1551,6 +1572,10 @@ class PublicTokenOverview {
     };
   }
 
+  String getErrorMessage() {
+    return _handlePublicTokenOverview(this);
+  }
+
   PublicTokenOverview copyWith({
     /// [address] defined in Candid: `address: text`
     String? address,
@@ -1753,6 +1778,10 @@ class PublicTokenChartDayData {
     };
   }
 
+  String getErrorMessage() {
+    return _handlePublicTokenChartDayData(this);
+  }
+
   PublicTokenChartDayData copyWith({
     /// [id] defined in Candid: `id: int`
     BigInt? id,
@@ -1910,6 +1939,10 @@ class PoolInfo {
     };
   }
 
+  String getErrorMessage() {
+    return _handlePoolInfo(this);
+  }
+
   PoolInfo copyWith({
     /// [fee] defined in Candid: `fee: int`
     BigInt? fee,
@@ -2041,6 +2074,10 @@ class NatResult {
     };
   }
 
+  String getErrorMessage() {
+    return _handleNatResult(this);
+  }
+
   NatResult copyWith({
     /// [err] defined in Candid: `err: text`
     String? err,
@@ -2110,6 +2147,10 @@ class GetTokenChartDataArg {
       item2,
       item3,
     ];
+  }
+
+  String getErrorMessage() {
+    return _handleGetTokenChartDataArg(this);
   }
 
   GetTokenChartDataArg copyWith({
@@ -2195,6 +2236,10 @@ class GetTokenPricesDataArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleGetTokenPricesDataArg(this);
+  }
+
   GetTokenPricesDataArg copyWith({
     /// [item1] defined in Candid: `text`
     String? item1,
@@ -2276,6 +2321,10 @@ class GetTokenTransactionsArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleGetTokenTransactionsArg(this);
+  }
+
   GetTokenTransactionsArg copyWith({
     /// [item1] defined in Candid: `text`
     String? item1,
@@ -2345,6 +2394,10 @@ class SaveTransactionsArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleSaveTransactionsArg(this);
+  }
+
   SaveTransactionsArg copyWith({
     /// [item1] defined in Candid: `TransactionsType`
     TransactionsType? item1,
@@ -2374,4 +2427,190 @@ class SaveTransactionsArg {
   String toString() {
     return toJson().toString();
   }
+}
+
+String _handleGetLastIDRet0Item(
+  GetLastIDRet0Item error,
+) {
+  if (error.item1 != null) {
+    return L10n.current.idlGetLastIDRet0ItemItem1(
+      error.item1.toString(),
+    );
+  }
+
+  if (error.item2 != null) {
+    return L10n.current.idlGetLastIDRet0ItemItem2(
+      error.item2.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleGetTvlRecordRet0Item(
+  GetTvlRecordRet0Item error,
+) {
+  if (error.item1 != null) {
+    return L10n.current.idlGetTvlRecordRet0ItemItem1(
+      error.item1.toString(),
+    );
+  }
+
+  if (error.item2 != null) {
+    return L10n.current.idlGetTvlRecordRet0ItemItem2(
+      error.item2.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTransactionsType(
+  TransactionsType error,
+) {
+  return L10n.current.idlTransactionsType(
+    error.amountToken0.toString(),
+    error.amountToken1.toString(),
+    error.amountUSD.toString(),
+    error.exchangePrice.toString(),
+    error.exchangeRate.toString(),
+    error.from.toString(),
+    error.hash.toString(),
+    error.liquidityChange.toString(),
+    error.liquidityTotal.toString(),
+    error.poolFee.toString(),
+    error.poolId.toString(),
+    error.recipient.toString(),
+    error.sender.toString(),
+    error.tick.toString(),
+    error.timestamp.toString(),
+    error.to.toString(),
+    error.token0ChangeAmount.toString(),
+    error.token0Decimals.toString(),
+    error.token0Fee.toString(),
+    error.token0Id.toString(),
+    error.token0Price.toString(),
+    error.token0Standard.toString(),
+    error.token0Symbol.toString(),
+    error.token1ChangeAmount.toString(),
+    error.token1Decimals.toString(),
+    error.token1Fee.toString(),
+    error.token1Id.toString(),
+    error.token1Price.toString(),
+    error.token1Standard.toString(),
+    error.token1Symbol.toString(),
+    _handleTransactionType(
+      error.action!,
+    ),
+  );
+}
+
+String _handleTransactionType(
+  TransactionType error,
+) {
+  if (error == TransactionType.addLiquidity) {
+    return L10n.current.idlAddLiquidity;
+  }
+
+  if (error == TransactionType.claim) {
+    return L10n.current.idlClaim;
+  }
+
+  if (error == TransactionType.decreaseLiquidity) {
+    return L10n.current.idlDecreaseLiquidity;
+  }
+
+  if (error == TransactionType.increaseLiquidity) {
+    return L10n.current.idlIncreaseLiquidity;
+  }
+
+  if (error == TransactionType.swap) {
+    return L10n.current.idlSwap;
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handlePublicTokenPricesData(
+  PublicTokenPricesData error,
+) {
+  return L10n.current.idlPublicTokenPricesData(
+    error.close.toString(),
+    error.high.toString(),
+    error.id.toString(),
+    error.low.toString(),
+    error.open.toString(),
+    error.timestamp.toString(),
+  );
+}
+
+String _handlePublicTokenOverview(
+  PublicTokenOverview error,
+) {
+  return L10n.current.idlPublicTokenOverview(
+    error.address.toString(),
+    error.feesUSD.toString(),
+    error.id.toString(),
+    error.name.toString(),
+    error.priceUSD.toString(),
+    error.priceUSDChange.toString(),
+    error.priceUSDChangeWeek.toString(),
+    error.standard.toString(),
+    error.symbol.toString(),
+    error.totalVolumeUSD.toString(),
+    error.tvlToken.toString(),
+    error.tvlUSD.toString(),
+    error.tvlUSDChange.toString(),
+    error.txCount.toString(),
+    error.volumeUSD.toString(),
+    error.volumeUSDChange.toString(),
+    error.volumeUSDWeek.toString(),
+  );
+}
+
+String _handlePublicTokenChartDayData(
+  PublicTokenChartDayData error,
+) {
+  return L10n.current.idlPublicTokenChartDayData(
+    error.id.toString(),
+    error.timestamp.toString(),
+    error.tvlUSD.toString(),
+    error.txCount.toString(),
+    error.volumeUSD.toString(),
+  );
+}
+
+String _handlePoolInfo(
+  PoolInfo error,
+) {
+  return L10n.current.idlPoolInfo(
+    error.fee.toString(),
+    error.pool.toString(),
+    error.token0Decimals.toString(),
+    error.token0Id.toString(),
+    error.token0Price.toString(),
+    error.token0Symbol.toString(),
+    error.token1Decimals.toString(),
+    error.token1Id.toString(),
+    error.token1Price.toString(),
+    error.token1Symbol.toString(),
+  );
+}
+
+String _handleNatResult(
+  NatResult error,
+) {
+  if (error.err != null) {
+    return L10n.current.idlErr(
+      error.err.toString(),
+    );
+  }
+
+  if (error.ok != null) {
+    return L10n.current.idlOk(
+      error.ok.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
 }

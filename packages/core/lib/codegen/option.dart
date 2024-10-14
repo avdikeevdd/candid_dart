@@ -1,5 +1,5 @@
 class GenOption {
-  const GenOption( {
+  const GenOption({
     this.freezed = false,
     this.makeCollectionsUnmodifiable = true,
     this.equal = true,
@@ -8,6 +8,7 @@ class GenOption {
     this.injectPackages,
     this.preActorCall,
     this.postActorCall,
+    this.generateErrorsFor = const ['.*'],
   });
 
   factory GenOption.fromJson(Map<String, dynamic> json) {
@@ -22,8 +23,9 @@ class GenOption {
       preActorCall: preActorCall,
       postActorCall: postActorCall,
       injectPackages: injectPackages is List ? injectPackages.cast() : null,
-      makeCollectionsUnmodifiable:
-          json['make_collections_unmodifiable'] ?? true,
+      makeCollectionsUnmodifiable: json['make_collections_unmodifiable'] ?? true,
+      generateErrorsFor:
+          (json['generate_errors_for'] as List<dynamic>?)?.whereType<String>().toList() ?? ['.*'],
     );
   }
 
@@ -40,7 +42,7 @@ class GenOption {
   final List<String>? injectPackages;
   final String? preActorCall;
   final String? postActorCall;
-
+  final List<String> generateErrorsFor;
 
   @override
   String toString() {

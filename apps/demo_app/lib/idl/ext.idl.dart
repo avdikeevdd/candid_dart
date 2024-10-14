@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
+import 'package:hash_talk/core/l10n/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 class ExtIDLActor {
@@ -267,6 +268,10 @@ class User {
     };
   }
 
+  String getErrorMessage() {
+    return _handleUser(this);
+  }
+
   User copyWith({
     /// [address] defined in Candid: `address: AccountIdentifier`
     AccountIdentifier? address,
@@ -378,6 +383,10 @@ class TransferResponseErr {
       if (rejected) 'Rejected': null,
       if (unauthorized != null) 'Unauthorized': unauthorized,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleTransferResponseErr(this);
   }
 
   TransferResponseErr copyWith({
@@ -494,6 +503,10 @@ class TransferResponse {
       if (err != null) 'err': err,
       if (ok != null) 'ok': ok,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleTransferResponse(this);
   }
 
   TransferResponse copyWith({
@@ -633,6 +646,10 @@ class TransferRequest {
     };
   }
 
+  String getErrorMessage() {
+    return _handleTransferRequest(this);
+  }
+
   TransferRequest copyWith({
     /// [amount] defined in Candid: `amount: Balance`
     Balance? amount,
@@ -730,6 +747,10 @@ class Result {
       if (err != null) 'err': err,
       if (ok != null) 'ok': ok,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleResult(this);
   }
 
   Result copyWith({
@@ -832,6 +853,10 @@ class MetadataFungible {
     };
   }
 
+  String getErrorMessage() {
+    return _handleMetadataFungible(this);
+  }
+
   MetadataFungible copyWith({
     /// [decimals] defined in Candid: `decimals: nat8`
     int? decimals,
@@ -915,6 +940,10 @@ class MetadataNonfungible {
     };
   }
 
+  String getErrorMessage() {
+    return _handleMetadataNonfungible(this);
+  }
+
   MetadataNonfungible copyWith(
       {
       /// [metadata] defined in Candid: `metadata: opt blob`
@@ -984,6 +1013,10 @@ class Metadata {
       if (fungible != null) 'fungible': fungible,
       if (nonfungible != null) 'nonfungible': nonfungible,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleMetadata(this);
   }
 
   Metadata copyWith({
@@ -1073,6 +1106,10 @@ class CommonError {
     };
   }
 
+  String getErrorMessage() {
+    return _handleCommonError(this);
+  }
+
   CommonError copyWith({
     /// [insufficientBalance] defined in Candid: `InsufficientBalance`
     bool? insufficientBalance,
@@ -1158,6 +1195,10 @@ class BalanceResponse {
     };
   }
 
+  String getErrorMessage() {
+    return _handleBalanceResponse(this);
+  }
+
   BalanceResponse copyWith({
     /// [err] defined in Candid: `err: CommonError`
     CommonError? err,
@@ -1223,6 +1264,10 @@ class BalanceRequest {
       'token': token,
       'user': user,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleBalanceRequest(this);
   }
 
   BalanceRequest copyWith({
@@ -1296,6 +1341,10 @@ class FeeResult {
     };
   }
 
+  String getErrorMessage() {
+    return _handleFeeResult(this);
+  }
+
   FeeResult copyWith({
     /// [err] defined in Candid: `err: CommonError`
     CommonError? err,
@@ -1350,3 +1399,228 @@ typedef Memo = Uint8List;
 ///   type AccountIdentifier = text;
 /// ```
 typedef AccountIdentifier = String;
+
+String _handleUser(
+  User error,
+) {
+  if (error.address != null) {
+    return L10n.current.idlAddress(
+      error.address.toString(),
+    );
+  }
+
+  if (error.principal != null) {
+    return L10n.current.idlPrincipal(
+      error.principal.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTransferResponseErr(
+  TransferResponseErr error,
+) {
+  if (error.insufficientAllowance == true) {
+    return L10n.current.idlInsufficientAllowance;
+  }
+
+  if (error.insufficientBalance == true) {
+    return L10n.current.idlInsufficientBalance;
+  }
+
+  if (error.rejected == true) {
+    return L10n.current.idlRejected;
+  }
+
+  if (error.cannotNotify != null) {
+    return L10n.current.idlCannotNotify(
+      error.cannotNotify.toString(),
+    );
+  }
+
+  if (error.invalidToken != null) {
+    return L10n.current.idlInvalidToken(
+      error.invalidToken.toString(),
+    );
+  }
+
+  if (error.other != null) {
+    return L10n.current.idlOther(
+      error.other.toString(),
+    );
+  }
+
+  if (error.unauthorized != null) {
+    return L10n.current.idlUnauthorized(
+      error.unauthorized.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTransferResponse(
+  TransferResponse error,
+) {
+  if (error.ok != null) {
+    return L10n.current.idlOk(
+      error.ok.toString(),
+    );
+  }
+
+  if (error.err != null) {
+    return _handleTransferResponseErr(
+      error.err!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTransferRequest(
+  TransferRequest error,
+) {
+  return L10n.current.idlTransferRequest(
+    error.amount.toString(),
+    error.nonce.toString(),
+    error.notify.toString(),
+    error.subaccount.toString(),
+    error.token.toString(),
+    error.memo.toString(),
+    _handleUser(
+      error.to!,
+    ),
+  );
+}
+
+String _handleResult(
+  Result error,
+) {
+  if (error.err != null) {
+    return _handleCommonError(
+      error.err!,
+    );
+  }
+
+  if (error.ok != null) {
+    return _handleMetadata(
+      error.ok!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleMetadataFungible(
+  MetadataFungible error,
+) {
+  return L10n.current.idlMetadataFungible(
+    error.decimals.toString(),
+    error.metadata.toString(),
+    error.name.toString(),
+    error.ownerAccount.toString(),
+    error.symbol.toString(),
+  );
+}
+
+String _handleMetadataNonfungible(
+  MetadataNonfungible error,
+) {
+  return L10n.current.idlMetadataNonfungible(
+    error.metadata.toString(),
+  );
+}
+
+String _handleMetadata(
+  Metadata error,
+) {
+  if (error.fungible != null) {
+    return _handleMetadataFungible(
+      error.fungible!,
+    );
+  }
+
+  if (error.nonfungible != null) {
+    return _handleMetadataNonfungible(
+      error.nonfungible!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleCommonError(
+  CommonError error,
+) {
+  if (error.insufficientBalance == true) {
+    return L10n.current.idlInsufficientBalance;
+  }
+
+  if (error.invalidToken != null) {
+    return L10n.current.idlInvalidToken(
+      error.invalidToken.toString(),
+    );
+  }
+
+  if (error.other != null) {
+    return L10n.current.idlOther(
+      error.other.toString(),
+    );
+  }
+
+  if (error.unauthorized != null) {
+    return L10n.current.idlUnauthorized(
+      error.unauthorized.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleBalanceResponse(
+  BalanceResponse error,
+) {
+  if (error.ok != null) {
+    return L10n.current.idlOk(
+      error.ok.toString(),
+    );
+  }
+
+  if (error.err != null) {
+    return _handleCommonError(
+      error.err!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleBalanceRequest(
+  BalanceRequest error,
+) {
+  return L10n.current.idlBalanceRequest(
+    error.token.toString(),
+    _handleUser(
+      error.user!,
+    ),
+  );
+}
+
+String _handleFeeResult(
+  FeeResult error,
+) {
+  if (error.ok != null) {
+    return L10n.current.idlOk(
+      error.ok.toString(),
+    );
+  }
+
+  if (error.err != null) {
+    return _handleCommonError(
+      error.err!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}

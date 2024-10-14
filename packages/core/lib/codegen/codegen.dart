@@ -160,7 +160,7 @@ Future<$retType> $methodName($arg) async {
           final isTuple = type is ts.RecordType && type.isTupleValue;
           final Spec clazz;
           if (type.isEnum) {
-            clazz = toEnum(className, type);
+            clazz = toEnum(className, type, option);
           } else if (option.freezed) {
             clazz = isTuple
                 ? toFreezedTupleClass(className, type, option)
@@ -209,7 +209,11 @@ Future<$retType> $methodName($arg) async {
       ]),
   ).accept(emitter).toString();
 
-  code = HTErrorGenerator(code: code, idlVisitor: idlVisitor).modifyCode();
+  code = HTErrorGenerator(
+    code: code,
+    idlVisitor: idlVisitor,
+    generateErrorsFor: option.generateErrorsFor,
+  ).modifyCode();
 
   return DartFormatter(fixes: StyleFix.all).format(code);
 }
@@ -323,7 +327,7 @@ Spec toTupleClass(
             ..body = Code('${toJsonFields}return [$toJson];')
             ..returns = const Reference('List<dynamic>'),
         ),
-        if (HTErrorGenerator.rules(className).any((e) => e))
+        if (HTErrorGenerator.generateForObject(className, option.generateErrorsFor))
           Method(
             (b) => b
               ..name = 'getErrorMessage'
@@ -619,7 +623,7 @@ Spec toClass(
             ..body = Code('${toJsonFields}return { $toJson };')
             ..returns = const Reference('Map<String, dynamic>'),
         ),
-        if (HTErrorGenerator.rules(className).any((e) => e))
+        if (HTErrorGenerator.generateForObject(className, option.generateErrorsFor))
           Method(
             (b) => b
               ..name = 'getErrorMessage'
@@ -667,7 +671,7 @@ Spec toClass(
   );
 }
 
-Spec toEnum(String className, ts.ObjectType obj) {
+Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
   final values = <EnumValue>[];
   final getters = <Method>[];
   for (final e in obj.children) {
@@ -747,7 +751,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
             ..body = const Code('return {name: null};')
             ..returns = const Reference('Map<String, dynamic>'),
         ),
-        if (HTErrorGenerator.rules(className).any((e) => e))
+        if (HTErrorGenerator.generateForObject(className, option.generateErrorsFor))
           Method(
             (b) => b
               ..name = 'getErrorMessage'

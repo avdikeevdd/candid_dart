@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
+import 'package:hash_talk/core/l10n/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 class Dip20IDLActor {
@@ -557,6 +558,10 @@ class GetHoldersRet0Item {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleGetHoldersRet0Item(this);
+  }
+
   GetHoldersRet0Item copyWith({
     /// [item1] defined in Candid: `principal`
     Principal? item1,
@@ -677,6 +682,10 @@ class Metadata {
     };
   }
 
+  String getErrorMessage() {
+    return _handleMetadata(this);
+  }
+
   Metadata copyWith({
     /// [fee] defined in Candid: `fee: nat`
     BigInt? fee,
@@ -774,6 +783,10 @@ class Result {
       if (ok != null) 'Ok': ok,
       if (err != null) 'Err': err,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleResult(this);
   }
 
   Result copyWith({
@@ -885,6 +898,10 @@ class TokenInfo {
       'cycles': cycles,
       'feeTo': feeTo,
     };
+  }
+
+  String getErrorMessage() {
+    return _handleTokenInfo(this);
   }
 
   TokenInfo copyWith({
@@ -1049,6 +1066,10 @@ class TxError {
     };
   }
 
+  String getErrorMessage() {
+    return _handleTxError(this);
+  }
+
   TxError copyWith({
     /// [insufficientAllowance] defined in Candid: `InsufficientAllowance`
     bool? insufficientAllowance,
@@ -1167,6 +1188,10 @@ class AllowanceArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleAllowanceArg(this);
+  }
+
   AllowanceArg copyWith({
     /// [item1] defined in Candid: `principal`
     Principal? item1,
@@ -1229,6 +1254,10 @@ class ApproveArg {
       item1,
       item2,
     ];
+  }
+
+  String getErrorMessage() {
+    return _handleApproveArg(this);
   }
 
   ApproveArg copyWith({
@@ -1295,6 +1324,10 @@ class GetHoldersArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleGetHoldersArg(this);
+  }
+
   GetHoldersArg copyWith({
     /// [item1] defined in Candid: `nat64`
     BigInt? item1,
@@ -1359,6 +1392,10 @@ class MintArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleMintArg(this);
+  }
+
   MintArg copyWith({
     /// [item1] defined in Candid: `principal`
     Principal? item1,
@@ -1421,6 +1458,10 @@ class TransferArg {
       item1,
       item2,
     ];
+  }
+
+  String getErrorMessage() {
+    return _handleTransferArg(this);
   }
 
   TransferArg copyWith({
@@ -1494,6 +1535,10 @@ class TransferFromArg {
     ];
   }
 
+  String getErrorMessage() {
+    return _handleTransferFromArg(this);
+  }
+
   TransferFromArg copyWith({
     /// [item1] defined in Candid: `principal`
     Principal? item1,
@@ -1528,4 +1573,113 @@ class TransferFromArg {
   String toString() {
     return toJson().toString();
   }
+}
+
+String _handleGetHoldersRet0Item(
+  GetHoldersRet0Item error,
+) {
+  if (error.item2 != null) {
+    return L10n.current.idlGetHoldersRet0ItemItem2(
+      error.item2.toString(),
+    );
+  }
+
+  if (error.item1 != null) {
+    return L10n.current.idlItem1(
+      error.item1.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleMetadata(
+  Metadata error,
+) {
+  return L10n.current.idlMetadata(
+    error.fee.toString(),
+    error.decimals.toString(),
+    error.logo.toString(),
+    error.name.toString(),
+    error.totalSupply.toString(),
+    error.symbol.toString(),
+    error.owner.toString(),
+  );
+}
+
+String _handleResult(
+  Result error,
+) {
+  if (error.ok != null) {
+    return L10n.current.idlOk(
+      error.ok.toString(),
+    );
+  }
+
+  if (error.err != null) {
+    return _handleTxError(
+      error.err!,
+    );
+  }
+
+  return L10n.current.idlUnknownError;
+}
+
+String _handleTokenInfo(
+  TokenInfo error,
+) {
+  return L10n.current.idlTokenInfo(
+    error.holderNumber.toString(),
+    error.deployTime.toString(),
+    error.historySize.toString(),
+    error.cycles.toString(),
+    _handleMetadata(
+      error.metadata!,
+    ),
+    error.feeTo.toString(),
+  );
+}
+
+String _handleTxError(
+  TxError error,
+) {
+  if (error.insufficientAllowance == true) {
+    return L10n.current.idlInsufficientAllowance;
+  }
+
+  if (error.insufficientBalance == true) {
+    return L10n.current.idlInsufficientBalance;
+  }
+
+  if (error.errorOperationStyle == true) {
+    return L10n.current.idlErrorOperationStyle;
+  }
+
+  if (error.unauthorized == true) {
+    return L10n.current.idlUnauthorized;
+  }
+
+  if (error.ledgerTrap == true) {
+    return L10n.current.idlLedgerTrap;
+  }
+
+  if (error.errorTo == true) {
+    return L10n.current.idlErrorTo;
+  }
+
+  if (error.blockUsed == true) {
+    return L10n.current.idlBlockUsed;
+  }
+
+  if (error.amountTooSmall == true) {
+    return L10n.current.idlAmountTooSmall;
+  }
+
+  if (error.other != null) {
+    return L10n.current.idlOther(
+      error.other.toString(),
+    );
+  }
+
+  return L10n.current.idlUnknownError;
 }

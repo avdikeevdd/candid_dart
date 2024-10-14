@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:
+      candid_dart_build|candid2dart:
+        generate_for:
+          - "**/**.did"
+        options:
+          # generate_errors_for:
+          #   - ".*Error$"
