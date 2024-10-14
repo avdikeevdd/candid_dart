@@ -132,7 +132,7 @@ void _writeCode(File f, GenOption option) {
     final contents = f.readAsStringSync();
     final fileName = filePath.split(Platform.pathSeparator).last;
     final code = did2dart(fileName, contents, option);
-    final newPath = filePath.replaceAll(RegExp(r'.did$'), '.idl.dart');
+    final newPath = filePath.replaceAll(RegExp(r'.did$'), '_idl.dart');
     File(newPath).writeAsStringSync(code);
     newPath.$debug(tag: ' generated');
   }
