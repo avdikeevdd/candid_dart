@@ -284,7 +284,6 @@ class HTErrorGenerator {
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
         code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,);');
       } else {
-        code.writeln('if (error.$arg != null) {');
         code.writeln('return _handle$entryClassNamePC(error.$arg!,);');
       }
       code.writeln('}');
