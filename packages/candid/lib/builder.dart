@@ -24,7 +24,7 @@ class Candid2DartBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions {
     return const {
-      '.did': ['.idl.dart'],
+      '.did': ['_idl.dart'],
     };
   }
 }
