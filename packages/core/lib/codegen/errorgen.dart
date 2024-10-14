@@ -183,15 +183,15 @@ class HTErrorGenerator {
     final args = StringBuffer();
 
     for (final boolArg in _boolArgs) {
-      args.write('error.$boolArg,');
+      args.write('error.$boolArg.toString(),');
     }
 
     for (final dartTypeArg in _dartTypeArgs) {
-      args.write('error.$dartTypeArg,');
+      args.write('error.$dartTypeArg.toString(),');
     }
 
     for (final typedefArg in _typedefArgs) {
-      args.write('error.$typedefArg,');
+      args.write('error.$typedefArg.toString(),');
     }
 
     for (final e in _classArgs.entries) {
@@ -228,50 +228,44 @@ class HTErrorGenerator {
       if (isEnum) {
         code.writeln('if (error == $classNamePC.$boolArg) {');
         code.writeln('return L10n.current.$l10nPrefix$boolArgPC;');
-        code.writeln('}');
       } else if (isTuple) {
         code.writeln('if (error == $classNamePC.$boolArg) {');
         code.writeln('return L10n.current.$l10nPrefix$classNamePC$boolArgPC;');
-        code.writeln('}');
       } else {
         code.writeln('if (error.$boolArg == true) {');
         code.writeln('return L10n.current.$l10nPrefix$boolArgPC;');
-        code.writeln('}');
       }
+      code.writeln('}');
     }
 
     for (final dartTypeArg in _dartTypeArgs) {
       final dartTypeArgPC = dartTypeArg.toString().pascalCase;
       code.writeln();
 
+      code.writeln('if (error.$dartTypeArg != null) {');
       if (isTuple) {
-        code.writeln('if (error.$dartTypeArg != null) {');
         code.writeln(
           'return L10n.current.$l10nPrefix$classNamePC$dartTypeArgPC(error.$dartTypeArg);',
         );
-        code.writeln('}');
       } else {
-        code.writeln('if (error.$dartTypeArg != null) {');
         code.writeln(
           'return L10n.current.$l10nPrefix$dartTypeArgPC(error.$dartTypeArg);',
         );
-        code.writeln('}');
       }
+      code.writeln('}');
     }
 
     for (final typedefArg in _typedefArgs) {
       final typedefArgPC = typedefArg.toString().pascalCase;
       code.writeln();
 
+      code.writeln('if (error.$typedefArg != null) {');
       if (isTuple) {
-        code.writeln('if (error.$typedefArg != null) {');
         code.writeln('return L10n.current.$l10nPrefix$classNamePC$typedefArgPC;');
-        code.writeln('}');
       } else {
-        code.writeln('if (error.$typedefArg != null) {');
         code.writeln('return L10n.current.$l10nPrefix$typedefArgPC;');
-        code.writeln('}');
       }
+      code.writeln('}');
     }
 
     for (final e in _classArgs.entries) {
@@ -282,23 +276,18 @@ class HTErrorGenerator {
 
       code.writeln();
 
+      code.writeln('if (error.$arg != null) {');
       if (entryClassName == 'Tokens') {
-        code.writeln('if (error.$arg != null) {');
         code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.e8s);');
-        code.writeln('}');
       } else if (entryClassName == 'Principal') {
-        code.writeln('if (error.$arg != null) {');
         code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString());');
-        code.writeln('}');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
-        code.writeln('if (error.$arg != null) {');
         code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,);');
-        code.writeln('}');
       } else {
         code.writeln('if (error.$arg != null) {');
         code.writeln('return _handle$entryClassNamePC(error.$arg!,);');
-        code.writeln('}');
       }
+      code.writeln('}');
     }
   }
 }
