@@ -204,9 +204,9 @@ class HTErrorGenerator {
       } else if (entryClassName == 'Principal') {
         args.write('error.$arg.toString(),');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
-        args.write('_handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!),');
+        args.write('_handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,),');
       } else {
-        args.write('_handle$entryClassNamePC(error.$arg!),');
+        args.write('_handle$entryClassNamePC(error.$arg!,),');
       }
     }
 
@@ -245,11 +245,11 @@ class HTErrorGenerator {
       code.writeln('if (error.$dartTypeArg != null) {');
       if (isTuple) {
         code.writeln(
-          'return L10n.current.$l10nPrefix$classNamePC$dartTypeArgPC(error.$dartTypeArg.toString());',
+          'return L10n.current.$l10nPrefix$classNamePC$dartTypeArgPC(error.$dartTypeArg.toString(),);',
         );
       } else {
         code.writeln(
-          'return L10n.current.$l10nPrefix$dartTypeArgPC(error.$dartTypeArg.toString());',
+          'return L10n.current.$l10nPrefix$dartTypeArgPC(error.$dartTypeArg.toString(),);',
         );
       }
       code.writeln('}');
@@ -278,9 +278,9 @@ class HTErrorGenerator {
 
       code.writeln('if (error.$arg != null) {');
       if (entryClassName == 'Tokens') {
-        code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.e8s);');
+        code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.e8s,);');
       } else if (entryClassName == 'Principal') {
-        code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString());');
+        code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString(),);');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
         code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,);');
       } else {
