@@ -35,7 +35,14 @@ class HTErrorGenerator {
         className.contains('Error'),
         className == 'RejectionCode',
       ];
-  static const dartTypes = ['String', 'BigInt', 'int', 'List'];
+  static const dartTypes = [
+    'String',
+    'BigInt',
+    'int',
+    'List',
+    'bool',
+    'double',
+  ];
 
   final String code;
   final IDLVisitor idlVisitor;
@@ -43,6 +50,7 @@ class HTErrorGenerator {
   // Resolve problems like this: typedef LedgerErrorSystemError = CMCErrorSystemError;
   // { OriginalName: MustChangedTo }
   final Map<String, String> _sameObjectsTypeDef = {};
+  final Map<String, String> _typedefDartTypes = {};
 
   final List<dynamic> _boolArgs = [];
   final List<dynamic> _dartTypeArgs = [];
@@ -53,7 +61,13 @@ class HTErrorGenerator {
   String _errorsCode = '';
 
   String modifyCode() {
-    _typedefs = idlVisitor.typedefs.values.map((e) => e.key.dartType()).toList();
+    _typedefs = idlVisitor.typedefs.values.map((e) {
+      if (dartTypes.contains(e.dartType())) {
+        _typedefDartTypes.addEntries({e.key.dartType(): e.dartType()}.entries);
+      }
+
+      return e.key.dartType();
+    }).toList();
 
     for (final entry in idlVisitor.objs.entries) {
       final type = entry.value;
@@ -116,7 +130,11 @@ class HTErrorGenerator {
       } else if (dartTypes.any(dartType.contains)) {
         _dartTypeArgs.add(argName?.camelCase);
       } else if (_typedefs.any(dartType.contains)) {
-        _typedefArgs.add(argName?.camelCase);
+        if (_typedefDartTypes.containsKey(dartType)) {
+          _dartTypeArgs.add(argName?.camelCase);
+        } else {
+          _typedefArgs.add(argName?.camelCase);
+        }
       } else {
         _classArgs.addEntries({child.dartType(): argName?.camelCase}.entries);
       }
