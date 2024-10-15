@@ -211,7 +211,7 @@ class HTErrorGenerator {
       final arg = e.value;
 
       if (entryClassName == 'Tokens') {
-        args.write('error.$arg.e8s,');
+        args.write('WalletUtils.fromNano(error.$arg.e8s,),');
       } else if (entryClassName == 'Principal') {
         args.write('error.$arg.toString(),');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
@@ -289,7 +289,7 @@ class HTErrorGenerator {
 
       code.writeln('if (error.$arg != null) {');
       if (entryClassName == 'Tokens') {
-        code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.e8s,);');
+        code.writeln('return L10n.current.$l10nPrefix$argPC(WalletUtils.fromNano(error.$arg.e8s,),);');
       } else if (entryClassName == 'Principal') {
         code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString(),);');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {

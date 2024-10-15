@@ -130,7 +130,6 @@ Future<$retType> $methodName($arg) async {
   final sameObjs = idlVisitor.sameObjs;
   final hasObj = idlVisitor.objs.isNotEmpty || idlVisitor.tuples.isNotEmpty;
   final imports = [
-    Directive.import('package:hash_talk/core/l10n/generated/l10n.dart'),
     Directive.import('dart:async'),
     Directive.import('package:agent_dart/agent_dart.dart'),
     ...idlVisitor.pkgs.map(Directive.import),
