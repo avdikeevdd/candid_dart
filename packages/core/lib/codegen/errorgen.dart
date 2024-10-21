@@ -47,7 +47,7 @@ class HTErrorGenerator {
 
   final List<dynamic> _boolArgs = [];
   final List<dynamic> _dartTypeArgs = [];
-  final Map<String, dynamic> _classArgs = {};
+  final List<ClassArg> _classArgs = [];
   final List<dynamic> _typedefArgs = [];
 
   List<String> _typedefs = [];
@@ -129,7 +129,7 @@ class HTErrorGenerator {
           _typedefArgs.add(argName?.camelCase);
         }
       } else {
-        _classArgs.addEntries({child.dartType(): argName?.camelCase}.entries);
+        _classArgs.add(ClassArg(child.dartType(), argName?.camelCase));
       }
     }
   }
@@ -205,10 +205,10 @@ class HTErrorGenerator {
       args.write('error.$typedefArg.toString(),');
     }
 
-    for (final e in _classArgs.entries) {
-      final entryClassName = e.key;
+    for (final e in _classArgs) {
+      final entryClassName = e.type;
       final entryClassNamePC = entryClassName.pascalCase;
-      final arg = e.value;
+      final arg = e.name;
 
       if (entryClassName == 'Tokens') {
         args.write('WalletUtils.fromNano(error.$arg.e8s,),');
@@ -279,17 +279,18 @@ class HTErrorGenerator {
       code.writeln('}');
     }
 
-    for (final e in _classArgs.entries) {
-      final entryClassName = e.key;
+    for (final e in _classArgs) {
+      final entryClassName = e.type;
       final entryClassNamePC = entryClassName.pascalCase;
-      final arg = e.value;
+      final arg = e.name;
       final argPC = arg.toString().pascalCase;
 
       code.writeln();
 
       code.writeln('if (error.$arg != null) {');
       if (entryClassName == 'Tokens') {
-        code.writeln('return L10n.current.$l10nPrefix$argPC(WalletUtils.fromNano(error.$arg.e8s,),);');
+        code.writeln(
+            'return L10n.current.$l10nPrefix$argPC(WalletUtils.fromNano(error.$arg.e8s,),);');
       } else if (entryClassName == 'Principal') {
         code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString(),);');
       } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
@@ -300,4 +301,12 @@ class HTErrorGenerator {
       code.writeln('}');
     }
   }
+}
+
+class ClassArg {
+  const ClassArg(this.type, this.name);
+
+  final String type;
+
+  final String? name;
 }
