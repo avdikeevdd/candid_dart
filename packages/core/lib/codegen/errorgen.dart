@@ -31,7 +31,6 @@ class HTErrorGenerator {
     'String',
     'BigInt',
     'int',
-    'List',
     'bool',
     'double',
   ];
@@ -53,9 +52,13 @@ class HTErrorGenerator {
   List<String> _typedefs = [];
   String _errorsCode = '';
 
+  bool isDartType(String value) {
+    return dartTypes.any((e) => value.startsWith(e));
+  }
+
   String modifyCode() {
     _typedefs = idlVisitor.typedefs.values.map((e) {
-      if (dartTypes.contains(e.dartType())) {
+      if (isDartType(e.dartType())) {
         _typedefDartTypes.addEntries({e.key.dartType(): e.dartType()}.entries);
       }
 
@@ -120,7 +123,7 @@ class HTErrorGenerator {
 
       if (useBool) {
         _boolArgs.add(argName?.camelCase);
-      } else if (dartTypes.any(dartType.contains)) {
+      } else if (isDartType(dartType)) {
         _dartTypeArgs.add(argName?.camelCase);
       } else if (_typedefs.any(dartType.contains)) {
         if (_typedefDartTypes.containsKey(dartType)) {
