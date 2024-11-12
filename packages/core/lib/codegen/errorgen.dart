@@ -5,6 +5,7 @@ import 'types.dart' as ts;
 import 'types.dart';
 import 'visitor.dart';
 
+// dart packages/candid/bin/cli.dart -p apps/demo_app/lib/idl/account.did
 class HTErrorGenerator {
   HTErrorGenerator({
     required this.code,
@@ -33,6 +34,8 @@ class HTErrorGenerator {
     'int',
     'bool',
     'double',
+    'Uint8List',
+    'List',
   ];
 
   final String code;
@@ -41,7 +44,7 @@ class HTErrorGenerator {
 
   // Resolve problems like this: typedef LedgerErrorSystemError = CMCErrorSystemError;
   // { OriginalName: MustChangedTo }
-  final Map<String, String> _sameObjectsTypeDef = {};
+  final List<SameObjectType> _sameObjectsTypeDef = [];
   final Map<String, String> _typedefDartTypes = {};
 
   final List<dynamic> _boolArgs = [];
@@ -68,6 +71,12 @@ class HTErrorGenerator {
     for (final entry in idlVisitor.objs.entries) {
       final type = entry.value;
       final className = entry.key;
+      _defineSameObjectsTypeDefs(type, className);
+    }
+
+    for (final entry in idlVisitor.objs.entries) {
+      final type = entry.value;
+      final className = entry.key;
 
       if (!generateForObject(className, generateErrorsFor)) {
         continue;
@@ -80,7 +89,7 @@ class HTErrorGenerator {
       final isTuple = type is ts.RecordType && type.isTupleValue;
       final isRecord = type is ts.RecordType && !isTuple;
 
-      _defineSameObjectsTypeDefs(type, className);
+      // _defineSameObjectsTypeDefs(type, className);
 
       final children = type.children;
 
@@ -147,7 +156,7 @@ class HTErrorGenerator {
       if (set.length > 1) {
         for (final value in set) {
           if (value != className) {
-            _sameObjectsTypeDef.addEntries({value: className}.entries);
+            _sameObjectsTypeDef.add(SameObjectType(className, value));
           }
         }
       }
@@ -217,8 +226,9 @@ class HTErrorGenerator {
         args.write('WalletUtils.fromNano(error.$arg.e8s,),');
       } else if (entryClassName == 'Principal') {
         args.write('error.$arg.toString(),');
-      } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
-        args.write('_handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,),');
+      } else if (_sameObjectsTypeDef.map((e) => e.secondary).contains(entryClassName)) {
+        final sameObj = _sameObjectsTypeDef.firstWhere((e) => e.secondary == entryClassName);
+        args.write('_handle${sameObj.primary}(error.$arg!,),');
       } else {
         args.write('_handle$entryClassNamePC(error.$arg!,),');
       }
@@ -293,11 +303,18 @@ class HTErrorGenerator {
       code.writeln('if (error.$arg != null) {');
       if (entryClassName == 'Tokens') {
         code.writeln(
-            'return L10n.current.$l10nPrefix$argPC(WalletUtils.fromNano(error.$arg.e8s,),);');
+          'return L10n.current.$l10nPrefix$argPC(WalletUtils.fromNano(error.$arg.e8s,),);',
+        );
       } else if (entryClassName == 'Principal') {
         code.writeln('return L10n.current.$l10nPrefix$argPC(error.$arg.toString(),);');
-      } else if (_sameObjectsTypeDef.containsKey(entryClassName)) {
-        code.writeln('return _handle${_sameObjectsTypeDef[entryClassName]}(error.$arg!,);');
+      } else if (_sameObjectsTypeDef.map((e) => e.secondary).contains(entryClassName)) {
+        final sameObj = _sameObjectsTypeDef.firstWhere((e) => e.secondary == entryClassName);
+
+        if (entryClassName == 'UserByWalletError') {
+          print(sameObj.primary);
+        }
+
+        code.writeln('return _handle${sameObj.primary}(error.$arg!,);');
       } else {
         code.writeln('return _handle$entryClassNamePC(error.$arg!,);');
       }
@@ -312,4 +329,11 @@ class ClassArg {
   final String type;
 
   final String? name;
+}
+
+class SameObjectType {
+  const SameObjectType(this.primary, this.secondary);
+
+  final String primary;
+  final String secondary;
 }
